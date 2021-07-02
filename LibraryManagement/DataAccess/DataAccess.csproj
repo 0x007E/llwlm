@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>LibraryManagement.DataAccess</AssemblyName>
+    <RootNamespace>LibraryManagement.DataAccess</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

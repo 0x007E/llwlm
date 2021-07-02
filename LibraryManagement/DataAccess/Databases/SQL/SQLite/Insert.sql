@@ -1,0 +1,1 @@
+﻿INSERT INTO Books (ISBN, Title, Author) VALUES (@ISBN, @TITLE, @AUTHOR);

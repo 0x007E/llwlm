@@ -1,5 +1,6 @@
 ﻿using LibraryManagement.Core;
 using LibraryManagement.DataAccess;
+using LibraryManagement.DataAccess.Databases;
 using LibraryManagement.Domain;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,8 @@ namespace LibraryMangement.Forms
 {
     public partial class FormMain : Form
     {
-        private IDataService<IBook> dataService = new ListDataService();
+        //private IDataService<IBook> dataService = new ListDataService();
+        private IDataService<IBook> dataService = new SQLiteDataService("Data Source=Library.db", @".\Databases\SQL\SQLite\");
         private IBook book;
 
         public FormMain()

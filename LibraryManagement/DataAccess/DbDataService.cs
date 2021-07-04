@@ -37,7 +37,7 @@ namespace LibraryManagement.DataAccess
 
             using (DbCommand cmd = Connection.CreateCommand())
             {
-                cmd.CommandText = File.ReadAllText(Path.Combine(this.Storage.Name, nameof(Insert), sqlFileExtension));
+                cmd.CommandText = File.ReadAllText(Path.Combine(this.Storage.ToString(), nameof(this.Insert) + sqlFileExtension));
                 cmd.Parameter(item);
 
                 if (cmd.ExecuteNonQuery() != 1)
@@ -53,7 +53,7 @@ namespace LibraryManagement.DataAccess
 
             using (DbCommand cmd = Connection.CreateCommand())
             {
-                cmd.CommandText = File.ReadAllText(Path.Combine(this.Storage.Name, nameof(Delete), sqlFileExtension));
+                cmd.CommandText = File.ReadAllText(Path.Combine(this.Storage.ToString(), nameof(this.Delete) + sqlFileExtension));
                 cmd.Parameter(id);
 
                 if (cmd.ExecuteNonQuery() != 1)
@@ -69,7 +69,7 @@ namespace LibraryManagement.DataAccess
 
             using (DbCommand cmd = Connection.CreateCommand())
             {
-                cmd.CommandText = File.ReadAllText(Path.Combine(this.Storage.Name, nameof(Update), sqlFileExtension));
+                cmd.CommandText = File.ReadAllText(Path.Combine(this.Storage.ToString(), nameof(this.Update) + sqlFileExtension));
                 cmd.Parameter(item);
 
                 if (cmd.ExecuteNonQuery() != 1)
@@ -85,7 +85,7 @@ namespace LibraryManagement.DataAccess
 
             using (DbCommand cmd = Connection.CreateCommand())
             {
-                cmd.CommandText = File.ReadAllText(Path.Combine(this.Storage.Name, nameof(Get), sqlFileExtension));
+                cmd.CommandText = File.ReadAllText(Path.Combine(this.Storage.ToString(), nameof(this.Get) + sqlFileExtension));
 
                 using (DbDataReader reader = cmd.ExecuteReader())
                 {
@@ -93,7 +93,8 @@ namespace LibraryManagement.DataAccess
                     {
                         books.Add(new Book
                         {
-                            Id = (int)reader[nameof(IBook.Id)],
+                            // SQLite uses Int64 for id so it needs to be converted cause in our example there are never more than 2^32 books...
+                            Id = int.Parse(reader[nameof(IBook.Id)].ToString()),
                             ISBN = reader[nameof(IBook.ISBN)].ToString(),
                             Title = reader[nameof(IBook.Title)].ToString(),
                             Author = reader[nameof(IBook.Author)].ToString()

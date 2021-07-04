@@ -23,12 +23,12 @@ namespace LibraryMangement.Forms
         {
             if (this.book.Id == 0)
             {
-                this.Text = Resources.LibraryResource.Update;
+                this.Text = Resources.LibraryResource.Create;
                 this.buttonSend.Text = this.Text;
             }
             else
             {
-                this.Text = Resources.LibraryResource.Create;
+                this.Text = Resources.LibraryResource.Update;
                 this.buttonSend.Text = this.Text;
 
                 this.textBoxISBN.ReadOnly = true;

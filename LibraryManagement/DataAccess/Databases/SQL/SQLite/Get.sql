@@ -1,1 +1,1 @@
-﻿SELECT Id, ISBN, Title, Author FROM BOOK ORDER BY Id
+﻿SELECT Id, ISBN, Title, Author FROM Books ORDER BY Id

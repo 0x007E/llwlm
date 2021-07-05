@@ -131,6 +131,8 @@ namespace LibraryMangement.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(383, 165);
             this.Controls.Add(this.groupBoxBook);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "FormData";
             this.Text = "?";
             this.Load += new System.EventHandler(this.FormData_Load);

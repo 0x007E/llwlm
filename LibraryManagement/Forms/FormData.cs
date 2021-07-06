@@ -32,10 +32,11 @@ namespace LibraryMangement.Forms
                 this.buttonSend.Text = this.Text;
 
                 this.textBoxISBN.ReadOnly = true;
-                this.textBoxISBN.Text = this.book.ISBN;
-                this.textBoxAuthor.Text = this.book.Author;
-                this.textBoxTitle.Text = this.book.Title;
             }
+
+            this.textBoxISBN.Text = this.book.ISBN;
+            this.textBoxAuthor.Text = this.book.Author;
+            this.textBoxTitle.Text = this.book.Title;
         }
 
         private void buttonSend_Click(object sender, EventArgs e)

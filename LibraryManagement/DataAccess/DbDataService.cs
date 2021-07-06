@@ -37,7 +37,7 @@ namespace LibraryManagement.DataAccess
 
             using (DbCommand cmd = Connection.CreateCommand())
             {
-                cmd.CommandText = File.ReadAllText(Path.Combine(this.Storage.ToString(), nameof(this.Insert) + sqlFileExtension));
+                cmd.CommandText = File.ReadAllText(Path.Combine(this.Storage.ToString(), nameof(Insert) + sqlFileExtension));
                 cmd.Parameter(item);
 
                 if (cmd.ExecuteNonQuery() != 1)
@@ -53,7 +53,7 @@ namespace LibraryManagement.DataAccess
 
             using (DbCommand cmd = Connection.CreateCommand())
             {
-                cmd.CommandText = File.ReadAllText(Path.Combine(this.Storage.ToString(), nameof(this.Delete) + sqlFileExtension));
+                cmd.CommandText = File.ReadAllText(Path.Combine(this.Storage.ToString(), nameof(Delete) + sqlFileExtension));
                 cmd.Parameter(id);
 
                 if (cmd.ExecuteNonQuery() != 1)
@@ -69,7 +69,7 @@ namespace LibraryManagement.DataAccess
 
             using (DbCommand cmd = Connection.CreateCommand())
             {
-                cmd.CommandText = File.ReadAllText(Path.Combine(this.Storage.ToString(), nameof(this.Update) + sqlFileExtension));
+                cmd.CommandText = File.ReadAllText(Path.Combine(this.Storage.ToString(), nameof(Update) + sqlFileExtension));
                 cmd.Parameter(item);
 
                 if (cmd.ExecuteNonQuery() != 1)
@@ -85,7 +85,7 @@ namespace LibraryManagement.DataAccess
 
             using (DbCommand cmd = Connection.CreateCommand())
             {
-                cmd.CommandText = File.ReadAllText(Path.Combine(this.Storage.ToString(), nameof(this.Get) + sqlFileExtension));
+                cmd.CommandText = File.ReadAllText(Path.Combine(this.Storage.ToString(), nameof(Get) + sqlFileExtension));
 
                 using (DbDataReader reader = cmd.ExecuteReader())
                 {

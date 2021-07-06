@@ -35,7 +35,7 @@ namespace LibraryManagement.Core.Extensions
 
         public static bool Exists(this int id, IEnumerable<IBook> books)
         {
-            if (books.Any(b => b.Id == id))
+            if (books is not null && books.Any(b => b.Id == id))
                 return true;
 
             return false;
@@ -43,7 +43,7 @@ namespace LibraryManagement.Core.Extensions
 
         public static bool Exists(this string isbn, IEnumerable<IBook> books)
         {
-            if (books.Any(b => b.ISBN == isbn))
+            if (books is not null && books.Any(b => b.ISBN == isbn))
                 return true;
 
             return false;

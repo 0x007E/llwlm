@@ -20,7 +20,7 @@ namespace LibraryMangement.Forms
             AppDomain.CurrentDomain.UnhandledException += UnhandledException_Handler;
 
             this.InitializeComponent();
-            this.dataService.Refresh += Data_Reload;
+            this.dataService.Refresh += this.Data_Reload;
         }
 
         private void FormMain_Load(object sender, EventArgs e) => this.Data_Reload(this, EventArgs.Empty);
@@ -30,28 +30,23 @@ namespace LibraryMangement.Forms
             this.dataGridViewBooks.DataSource = null;
             this.dataGridViewBooks.DataSource = this.dataService.Get();
             this.dataGridViewBooks.Invalidate();
+
+            this.ButtonStatus(!(((ICollection<IBook>)this.dataGridViewBooks.DataSource).Count == 0), new[] { this.buttonUpdate, this.buttonDelete });
         }
 
         private void dataGridViewBooks_SelectionChanged(object sender, EventArgs e)
         {
-            book = null;
-
-            try
-            {
-                book = dataGridViewBooks.CurrentRow.DataBoundItem as IBook;
-            }
-            catch { }
-
-            ButtonStatus(!(this.book is null), new[] { this.buttonUpdate, this.buttonDelete });
+            if(this.dataGridViewBooks.CurrentRow.DataBoundItem is not null)
+                this.book = dataGridViewBooks.CurrentRow.DataBoundItem as IBook;
         }
 
         private void buttonData_Click(object sender, EventArgs e)
         {
             IBook b;
 
-            if (sender == buttonAdd)
+            if (sender == this.buttonAdd)
                 b = new Book();
-            else if (sender == buttonUpdate)
+            else if (sender == this.buttonUpdate)
                 b = this.book;
             else
                 throw new NullReferenceException(nameof(buttonData_Click));
@@ -63,10 +58,10 @@ namespace LibraryMangement.Forms
             {
                 if (b.Id == 0)
                 {
-                    dataService.Insert(b);
+                    this.dataService.Insert(b);
                     return;
                 }
-                dataService.Update(b.Id, b);
+                this.dataService.Update(b.Id, b);
             }
             catch (Exception ex)
             {

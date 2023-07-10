@@ -1,82 +1,93 @@
 ﻿using LibraryManagement.Core;
 using LibraryManagement.DataAccess;
-using LibraryManagement.DataAccess.Databases;
 using LibraryManagement.Domain;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Data.SQLite;
+using System.Drawing;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace LibraryMangement.Forms
+namespace LibraryManagement.Forms
 {
     public partial class FormMain : Form
     {
-        //private IDataService<IBook> dataService = new ListDataService();
-        private IDataService<IBook> dataService = new SQLiteDataService("Data Source=Library.db", @".\Databases\SQL\SQLite\");
-        private IBook book;
+        //private IDataService<Book> dataService = new ListDataService();
+        //private IDataService<Book> dataService = new DbDataService(new("Data Source=Library.db"));
+
+        private IDataService<Book> dataService = 
+            new Db2DataService(
+                new SQLiteConnection("Data Source=Library.db"),
+                new DirectoryInfo(@".\Databases\SQL\SQLite\"));
+        private Book book;
+
+        List<Book> books = new();
 
         public FormMain()
         {
-            AppDomain.CurrentDomain.UnhandledException += UnhandledException_Handler;
-
             this.InitializeComponent();
-            this.dataService.Refresh += this.Data_Reload;
+            this.Data_Reload();
         }
 
-        private void FormMain_Load(object sender, EventArgs e) => this.Data_Reload(this, EventArgs.Empty);
-
-        private void Data_Reload(object sender, EventArgs e)
+        private void Data_Reload()
         {
-            this.dataGridViewBooks.DataSource = null;
-            this.dataGridViewBooks.DataSource = this.dataService.Get();
-            this.dataGridViewBooks.Invalidate();
+            this.dataGridViewData.DataSource = null;
+            this.dataGridViewData.DataSource = this.dataService.Get();
 
-            this.ButtonStatus(!(((ICollection<IBook>)this.dataGridViewBooks.DataSource).Count == 0), new[] { this.buttonUpdate, this.buttonDelete });
+            this.Button_Status();
         }
 
-        private void dataGridViewBooks_SelectionChanged(object sender, EventArgs e)
+        private void Button_Status()
         {
-            if(this.dataGridViewBooks.CurrentRow.DataBoundItem is not null)
-                this.book = dataGridViewBooks.CurrentRow.DataBoundItem as IBook;
-        }
-
-        private void buttonData_Click(object sender, EventArgs e)
-        {
-            IBook b;
-
-            if (sender == this.buttonAdd)
-                b = new Book();
-            else if (sender == this.buttonUpdate)
-                b = this.book;
+            if (this.dataGridViewData.RowCount == 0)
+            {
+                this.buttonUpdate.Enabled = false;
+                this.buttonDelete.Enabled = false;
+            }
             else
-                throw new NullReferenceException(nameof(buttonData_Click));
+            {
+                this.buttonUpdate.Enabled = true;
+                this.buttonDelete.Enabled = true;
+            }
+        }
 
-            if (new FormData(b).ShowDialog() != DialogResult.OK)
+        private void buttonCreateOrUpdate_Click(object sender, EventArgs e)
+        {
+            Book b = this.book;
+
+            if (sender == buttonCreate)
+            {
+                b = new Book();
+            }
+
+            if (new FormData(this.dataService, b).ShowDialog() != DialogResult.OK)
                 return;
 
-            try
-            {
-                if (b.Id == 0)
-                {
-                    this.dataService.Insert(b);
-                    return;
-                }
-                this.dataService.Update(b.Id, b);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, Resources.LibraryResource.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            this.Data_Reload();
         }
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show(Resources.LibraryResource.DeleteBook, Resources.LibraryResource.Delete, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Wirklich löschen", "Warnung", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
                 this.dataService.Delete(book.Id);
+                this.Data_Reload();
+            }
         }
 
-        private void ButtonStatus(bool status, IEnumerable<Button> buttons) => buttons.ToList().ForEach(b => b.Enabled = status);
+        private void dataGridViewData_SelectionChanged(object sender, EventArgs e)
+        {
+            book = null;
 
-        private void UnhandledException_Handler(object sender, UnhandledExceptionEventArgs e) => MessageBox.Show((e.ExceptionObject as Exception)?.Message, Resources.LibraryResource.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            try
+            {
+                book = dataGridViewData.CurrentRow.DataBoundItem as Book;
+            }
+            catch { }
+        }
     }
 }

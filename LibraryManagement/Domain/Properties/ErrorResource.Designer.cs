@@ -19,7 +19,7 @@ namespace LibraryManagement.Domain.Resource {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class ErrorResource {
@@ -88,7 +88,16 @@ namespace LibraryManagement.Domain.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EIntrag zu lang.
+        ///   Looks up a localized string similar to Die ISBN existiert bereits.
+        /// </summary>
+        internal static string ISBNDuplicate {
+            get {
+                return ResourceManager.GetString("ISBNDuplicate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Eintrag zu lang.
         /// </summary>
         internal static string MaxLengthAttribute {
             get {
@@ -102,6 +111,15 @@ namespace LibraryManagement.Domain.Resource {
         internal static string MinLengthAttribute {
             get {
                 return ResourceManager.GetString("MinLengthAttribute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Die eingegeben Länge ist ungültig.
+        /// </summary>
+        internal static string StringLengthAttribute {
+            get {
+                return ResourceManager.GetString("StringLengthAttribute", resourceCulture);
             }
         }
         

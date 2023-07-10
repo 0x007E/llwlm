@@ -1,9 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <AssemblyName>LibraryManagement.Domain</AssemblyName>
-    <RootNamespace>LibraryManagement.Domain</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+	<AssemblyName>LibraryManagement.Domain</AssemblyName>
+	<RootNamespace>LibraryManagement.Domain</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

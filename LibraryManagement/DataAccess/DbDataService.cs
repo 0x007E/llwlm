@@ -1,113 +1,112 @@
-﻿using LibraryManagement.Core.Services;
-using LibraryManagement.DataAccess.Extensions;
+﻿using LibraryManagement.Core;
 using LibraryManagement.Domain;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
-using System.IO;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace LibraryManagement.DataAccess
 {
-    public class DbDataService : DataService, IDisposable
+    public class DbDataService : DataService
     {
-        private const string sqlFileExtension = ".sql";
-
-        private DbConnection Connection { get; set; }
-        private DirectoryInfo Storage { get; set; }
-
-        public DbDataService(DbConnection connection, DirectoryInfo storage)
+        public DbDataService(SQLiteConnection connection)
         {
-            this.Connection = connection ?? throw new NullReferenceException(nameof(Connection));
-            this.Storage = storage ?? throw new NullReferenceException(nameof(Storage));
-
-            if (!Directory.Exists(Storage.FullName))
-                throw new DirectoryNotFoundException(nameof(Storage));
+            this.Connection = connection ?? throw new ArgumentNullException(nameof(Connection));
 
             if (this.Connection.State != ConnectionState.Open)
+            {
                 this.Connection.Open();
+            }
         }
 
-        public override void Insert(IBook item)
+        public SQLiteConnection Connection { get; private set; }
+
+        public override void Insert(Book item)
         {
             base.Insert(item);
 
-            using (DbCommand cmd = Connection.CreateCommand())
+            using (SQLiteCommand cmd = new(this.Connection))
             {
-                cmd.CommandText = File.ReadAllText(Path.Combine(this.Storage.ToString(), nameof(Insert) + sqlFileExtension));
-                cmd.Parameter(item);
+                cmd.CommandText = $"INSERT INTO Books ({nameof(Book.ISBN)}, {nameof(Book.Title)}, {nameof(Book.Author)}) VALUES (@ISBN, @TITLE, @AUTHOR)";
+
+                cmd.Parameters.AddWithValue("@ISBN", item.ISBN);
+                cmd.Parameters.AddWithValue("@TITLE", item.Title);
+                cmd.Parameters.AddWithValue("@AUTHOR", item.Author);
+
+                if(cmd.ExecuteNonQuery() != 1)
+                {
+                    throw new MissingFieldException(nameof(Insert));
+                }
+            }
+        }
+
+        public override void Update(int id, Book item)
+        {
+            base.Update(id, item);
+
+            using (SQLiteCommand cmd = new(this.Connection))
+            {
+                cmd.CommandText = $"UPDATE Books SET {nameof(Book.Title)}=@TITLE, {nameof(Book.Author)}=@AUTHOR WHERE {nameof(Book.Id)}=@ID";
+
+                cmd.Parameters.AddWithValue("@ID", id);
+                cmd.Parameters.AddWithValue("@TITLE", item.Title);
+                cmd.Parameters.AddWithValue("@AUTHOR", item.Author);
 
                 if (cmd.ExecuteNonQuery() != 1)
-                    throw new MissingFieldException(nameof(Insert));
+                {
+                    throw new MissingFieldException(nameof(Update));
+                }
             }
-
-            base.DoUpdate(EventArgs.Empty);
         }
 
         public override void Delete(int id)
         {
             base.Delete(id);
 
-            using (DbCommand cmd = Connection.CreateCommand())
+            using (SQLiteCommand cmd = new(this.Connection))
             {
-                cmd.CommandText = File.ReadAllText(Path.Combine(this.Storage.ToString(), nameof(Delete) + sqlFileExtension));
-                cmd.Parameter(id);
+                cmd.CommandText = $"DELETE FROM Books WHERE {nameof(Book.Id)}=@ID";
+
+                cmd.Parameters.AddWithValue("@ID", id);
 
                 if (cmd.ExecuteNonQuery() != 1)
+                {
                     throw new MissingFieldException(nameof(Delete));
+                }
             }
-
-            base.DoUpdate(EventArgs.Empty);
         }
 
-        public override void Update(int id, IBook item)
+        public override List<Book> Get()
         {
-            base.Update(id, item);
-
-            using (DbCommand cmd = Connection.CreateCommand())
+            using (SQLiteCommand cmd = new(this.Connection))
             {
-                cmd.CommandText = File.ReadAllText(Path.Combine(this.Storage.ToString(), nameof(Update) + sqlFileExtension));
-                cmd.Parameter(item);
+                cmd.CommandText = $"SELECT {nameof(Book.Id)}, {nameof(Book.ISBN)}, {nameof(Book.Title)}, {nameof(Book.Author)} FROM Books ORDER BY Id";
 
-                if (cmd.ExecuteNonQuery() != 1)
-                    throw new MissingFieldException(nameof(Update));
-            }
+                List<Book> books = new();
 
-            base.DoUpdate(EventArgs.Empty);
-        }
-
-        public override List<IBook> Get()
-        {
-            List<IBook> books = new();
-
-            using (DbCommand cmd = Connection.CreateCommand())
-            {
-                cmd.CommandText = File.ReadAllText(Path.Combine(this.Storage.ToString(), nameof(Get) + sqlFileExtension));
-
-                using (DbDataReader reader = cmd.ExecuteReader())
+                using (SQLiteDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        books.Add(new Book
+                        books.Add(new()
                         {
-                            // SQLite uses Int64 for id so it needs to be converted cause in our example there are never more than 2^32 books...
-                            Id = int.Parse(reader[nameof(IBook.Id)].ToString()),
-                            ISBN = reader[nameof(IBook.ISBN)].ToString(),
-                            Title = reader[nameof(IBook.Title)].ToString(),
-                            Author = reader[nameof(IBook.Author)].ToString()
+                            Id = int.Parse(reader[nameof(Book.Id)].ToString()),
+                            ISBN = reader[nameof(Book.ISBN)].ToString(),
+                            Title = reader[nameof(Book.Title)].ToString(),
+                            Author = reader[nameof(Book.Author)].ToString()
                         });
                     }
                 }
+                return books;
             }
-            return books;
         }
 
-        public void Close() => this.Connection?.Close();
-
-        public void Dispose() => this?.Close();
-
+        public override void Dispose()
+        {
+            this.Connection.Dispose();
+        }
     }
 }

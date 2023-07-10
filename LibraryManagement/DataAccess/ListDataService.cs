@@ -1,70 +1,64 @@
-﻿using LibraryManagement.Core.Services;
+﻿using LibraryManagement.Core;
 using LibraryManagement.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace LibraryManagement.DataAccess
 {
     public class ListDataService : DataService
     {
-        private static List<IBook> books;
-
-        public ListDataService(List<IBook> list = null)
+        private static List<Book> books = new()
         {
-            books = list ?? new()
+            new Book
             {
-                new Book
-                {
-                    Id = 1,
-                    ISBN = "ISBN 1234-1234",
-                    Title = "Test",
-                    Author = "Max Mustermann"
-                },
-                new Book
-                {
-                    Id = 2,
-                    ISBN = "ISBN 1234-3421",
-                    Title = "Test2",
-                    Author = "Alice Mustermann"
-                }
-            };
-        }
+                Id = 1,
+                ISBN = "123-1234567890",
+                Title = "Gregs Tagebuch",
+                Author = "Greg"
+            },
+            new Book
+            {
+                Id = 2,
+                ISBN = "321-1234567890",
+                Title = "Eine unendliche Geschichte der Zeit",
+                Author = "Stephen Hawking"
+            }
+        };
 
-        public override void Insert(IBook item)
+        public override void Insert(Book item)
         {
             base.Insert(item);
 
-            item.Id = books?.Count > 0 ? books.Last().Id : 1;
+            item.Id = books?.Count > 0 ? (books.Last().Id + 1) : 1;
             books.Add(item);
+        }
 
-            base.DoUpdate(EventArgs.Empty);
+        public override void Update(int id, Book item)
+        {
+            base.Update(id, item);
+
+            Book b = books?.FirstOrDefault(x => x.Id == id);
+
+            b.ISBN = item.ISBN;
+            b.Title = item.Title;
+            b.Author = item.Author;
         }
 
         public override void Delete(int id)
         {
             base.Delete(id);
-            books.Remove(books.FirstOrDefault(b => b.Id == id));
 
-            base.DoUpdate(EventArgs.Empty);
+            books.Remove(books.FirstOrDefault(x => x.Id == id));
         }
 
-        public override void Update(int id, IBook item)
+        public override List<Book> Get() => books;
+
+        public override void Dispose()
         {
-            base.Update(id, item);
-
-            IBook b = books.Where(b => b.Id == id).FirstOrDefault();
-
-            b.ISBN = item.ISBN;
-            b.Title = item.Title;
-            b.Author = item.Author;
-
-            base.DoUpdate(EventArgs.Empty);
-        }
-
-        public override List<IBook> Get()
-        {
-            return books;
+            books?.Clear();
         }
     }
 }

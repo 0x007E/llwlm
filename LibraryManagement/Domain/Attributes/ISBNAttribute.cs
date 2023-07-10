@@ -1,4 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace LibraryManagement.Domain.Attributes
 {
@@ -11,7 +16,7 @@ namespace LibraryManagement.Domain.Attributes
             if (isbn is null)
                 return false;
 
-            // komplizierte Berechnung der ISBN nummer
+            // Komplizierte Berechnung der ISBN
 
             return true;
         }

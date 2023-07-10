@@ -1,5 +1,4 @@
-﻿
-namespace LibraryMangement.Forms
+﻿namespace LibraryManagement.Forms
 {
     partial class FormData
     {
@@ -31,9 +30,9 @@ namespace LibraryMangement.Forms
         {
             this.components = new System.ComponentModel.Container();
             this.groupBoxBook = new System.Windows.Forms.GroupBox();
-            this.buttonSend = new System.Windows.Forms.Button();
+            this.buttonDo = new System.Windows.Forms.Button();
             this.labelAuthor = new System.Windows.Forms.Label();
-            this.textBoxAuthor = new System.Windows.Forms.TextBox();
+            this.textBoxAutor = new System.Windows.Forms.TextBox();
             this.labelTitle = new System.Windows.Forms.Label();
             this.textBoxTitle = new System.Windows.Forms.TextBox();
             this.labelISBN = new System.Windows.Forms.Label();
@@ -45,80 +44,76 @@ namespace LibraryMangement.Forms
             // 
             // groupBoxBook
             // 
-            this.groupBoxBook.Controls.Add(this.buttonSend);
+            this.groupBoxBook.Controls.Add(this.buttonDo);
             this.groupBoxBook.Controls.Add(this.labelAuthor);
-            this.groupBoxBook.Controls.Add(this.textBoxAuthor);
+            this.groupBoxBook.Controls.Add(this.textBoxAutor);
             this.groupBoxBook.Controls.Add(this.labelTitle);
             this.groupBoxBook.Controls.Add(this.textBoxTitle);
             this.groupBoxBook.Controls.Add(this.labelISBN);
             this.groupBoxBook.Controls.Add(this.textBoxISBN);
             this.groupBoxBook.Location = new System.Drawing.Point(12, 12);
             this.groupBoxBook.Name = "groupBoxBook";
-            this.groupBoxBook.Size = new System.Drawing.Size(359, 141);
-            this.groupBoxBook.TabIndex = 3;
+            this.groupBoxBook.Size = new System.Drawing.Size(288, 147);
+            this.groupBoxBook.TabIndex = 0;
             this.groupBoxBook.TabStop = false;
-            this.groupBoxBook.Tag = "";
             this.groupBoxBook.Text = "Buch";
             // 
-            // buttonSend
+            // buttonDo
             // 
-            this.buttonSend.Location = new System.Drawing.Point(167, 109);
-            this.buttonSend.Name = "buttonSend";
-            this.buttonSend.Size = new System.Drawing.Size(146, 23);
-            this.buttonSend.TabIndex = 6;
-            this.buttonSend.Text = "?";
-            this.buttonSend.UseVisualStyleBackColor = true;
-            this.buttonSend.Click += new System.EventHandler(this.buttonSend_Click);
+            this.buttonDo.Location = new System.Drawing.Point(188, 110);
+            this.buttonDo.Name = "buttonDo";
+            this.buttonDo.Size = new System.Drawing.Size(69, 23);
+            this.buttonDo.TabIndex = 6;
+            this.buttonDo.Text = "?";
+            this.buttonDo.UseVisualStyleBackColor = true;
+            this.buttonDo.Click += new System.EventHandler(this.buttonDo_Click);
             // 
             // labelAuthor
             // 
-            this.labelAuthor.AutoSize = true;
-            this.labelAuthor.Location = new System.Drawing.Point(6, 83);
+            this.labelAuthor.Location = new System.Drawing.Point(6, 80);
             this.labelAuthor.Name = "labelAuthor";
-            this.labelAuthor.Size = new System.Drawing.Size(40, 15);
+            this.labelAuthor.Size = new System.Drawing.Size(65, 23);
             this.labelAuthor.TabIndex = 5;
-            this.labelAuthor.Tag = "";
             this.labelAuthor.Text = "Autor:";
+            this.labelAuthor.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // textBoxAuthor
+            // textBoxAutor
             // 
-            this.textBoxAuthor.Location = new System.Drawing.Point(55, 80);
-            this.textBoxAuthor.Name = "textBoxAuthor";
-            this.textBoxAuthor.Size = new System.Drawing.Size(258, 23);
-            this.textBoxAuthor.TabIndex = 4;
+            this.textBoxAutor.Location = new System.Drawing.Point(77, 81);
+            this.textBoxAutor.Name = "textBoxAutor";
+            this.textBoxAutor.Size = new System.Drawing.Size(180, 23);
+            this.textBoxAutor.TabIndex = 4;
             // 
             // labelTitle
             // 
-            this.labelTitle.AutoSize = true;
-            this.labelTitle.Location = new System.Drawing.Point(14, 54);
+            this.labelTitle.Location = new System.Drawing.Point(6, 51);
             this.labelTitle.Name = "labelTitle";
-            this.labelTitle.Size = new System.Drawing.Size(32, 15);
+            this.labelTitle.Size = new System.Drawing.Size(65, 23);
             this.labelTitle.TabIndex = 3;
-            this.labelTitle.Tag = "";
-            this.labelTitle.Text = "Titel:";
+            this.labelTitle.Text = "Title:";
+            this.labelTitle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // textBoxTitle
             // 
-            this.textBoxTitle.Location = new System.Drawing.Point(55, 51);
+            this.textBoxTitle.Location = new System.Drawing.Point(77, 52);
             this.textBoxTitle.Name = "textBoxTitle";
-            this.textBoxTitle.Size = new System.Drawing.Size(258, 23);
+            this.textBoxTitle.Size = new System.Drawing.Size(180, 23);
             this.textBoxTitle.TabIndex = 2;
             // 
             // labelISBN
             // 
-            this.labelISBN.AutoSize = true;
-            this.labelISBN.Location = new System.Drawing.Point(11, 25);
+            this.labelISBN.Location = new System.Drawing.Point(6, 22);
             this.labelISBN.Name = "labelISBN";
-            this.labelISBN.Size = new System.Drawing.Size(35, 15);
+            this.labelISBN.Size = new System.Drawing.Size(65, 23);
             this.labelISBN.TabIndex = 1;
-            this.labelISBN.Tag = "";
             this.labelISBN.Text = "ISBN:";
+            this.labelISBN.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // textBoxISBN
             // 
-            this.textBoxISBN.Location = new System.Drawing.Point(55, 22);
+            this.textBoxISBN.Location = new System.Drawing.Point(77, 23);
             this.textBoxISBN.Name = "textBoxISBN";
-            this.textBoxISBN.Size = new System.Drawing.Size(258, 23);
+            this.textBoxISBN.Size = new System.Drawing.Size(180, 23);
             this.textBoxISBN.TabIndex = 0;
             // 
             // errorProvider
@@ -129,7 +124,7 @@ namespace LibraryMangement.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(383, 165);
+            this.ClientSize = new System.Drawing.Size(312, 171);
             this.Controls.Add(this.groupBoxBook);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -145,14 +140,14 @@ namespace LibraryMangement.Forms
 
         #endregion
 
-        private System.Windows.Forms.GroupBox groupBoxBook;
-        private System.Windows.Forms.Button buttonSend;
-        private System.Windows.Forms.Label labelAuthor;
-        private System.Windows.Forms.TextBox textBoxAuthor;
-        private System.Windows.Forms.Label labelTitle;
-        private System.Windows.Forms.TextBox textBoxTitle;
-        private System.Windows.Forms.Label labelISBN;
-        private System.Windows.Forms.TextBox textBoxISBN;
-        private System.Windows.Forms.ErrorProvider errorProvider;
+        private GroupBox groupBoxBook;
+        private Label labelAuthor;
+        private TextBox textBoxAutor;
+        private Label labelTitle;
+        private TextBox textBoxTitle;
+        private Label labelISBN;
+        private TextBox textBoxISBN;
+        private Button buttonDo;
+        private ErrorProvider errorProvider;
     }
 }

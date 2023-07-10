@@ -4,35 +4,43 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <AssemblyName>LibraryMangement.Forms</AssemblyName>
-    <RootNamespace>LibraryMangement.Forms</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>LibraryManagement.Forms</AssemblyName>
+    <RootNamespace>LibraryManagement.Forms</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Properties\LibraryResource.Designer.cs">
+    <Compile Update="ImageResource.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>LibraryResource.resx</DependentUpon>
+      <DependentUpon>ImageResource.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="FormMain.resx">
-      <CustomToolNamespace>LibraryMangement.Forms</CustomToolNamespace>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Properties\LibraryResource.resx">
+    <EmbeddedResource Update="ImageResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>LibraryResource.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>LibraryMangement.Forms.Resources</CustomToolNamespace>
+      <LastGenOutput>ImageResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Databases\SQL\SQLite\Delete.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Databases\SQL\SQLite\Get.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Databases\SQL\SQLite\Insert.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Databases\SQL\SQLite\Update.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Library.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

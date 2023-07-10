@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace LibraryManagement.Core
 {
-    public interface IDataService<T>
+    public interface IDataService<T> : IDisposable
     {
-        event EventHandler Refresh;
         void Insert(T item);
         void Update(int id, T item);
         void Delete(int id);

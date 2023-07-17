@@ -1,1 +1,0 @@
-﻿UPDATE Books SET Title=@TITLE, Author=@AUTHOR WHERE Id=@ID

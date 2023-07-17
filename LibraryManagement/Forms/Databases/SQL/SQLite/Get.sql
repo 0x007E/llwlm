@@ -1,1 +1,0 @@
-﻿SELECT Id, ISBN, Title, Author FROM Books ORDER BY Id
